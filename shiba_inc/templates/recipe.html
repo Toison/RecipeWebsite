@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- TODO: ADD Recipe Information -->
+    <title>Shiba_Inc</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="full">
+    <div id="pagetop">
+        <a href="/", style="text-decoration:none">
+            <img src="{{url_for('static', filename='images/logo.png')}}" alt="Main Page" id="logo">
+            <span id="logofont">Shiba Inc</span>
+        </a>
+        {% if 'username' in session %}
+        <span>
+            <a href="/u/{{session['username']}}/" class="right right_header" style="margin-left: 10px">{{session['username']}}</a>
+            <a href="/explore/" class="right right_header">explore</a>
+        </span>
+        {% else %}
+        <a href="/accounts/login"><span class="right right_header" style="font-weight: bold">login</span></a>
+        {% endif %}
+    </div>
+
+    <div id="container" data-id={{postid}}></div>
+    <!-- Load JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/post_bundle.js') }}"></script>
+</body>

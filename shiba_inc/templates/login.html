@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- TODO: ADD Recipe Information -->
+    <title>Shiba_Inc</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+
+
+<body class="full">
+
+<div class="header">
+
+    <div id="pagetop">
+        <a href="/", style="text-decoration:none">
+            <img src="{{url_for('static', filename='images/logo.png')}}" alt="Main Page" id="logo">
+            <span id="logofont">Shiba Inc</span>
+        </a>
+        {% if 'username' in session %}
+        <span>
+        <a href="/u/{{session['username']}}/" class="right right_header">{{session['username']}}</a>
+        <span class="right right_header vl"></span>
+        <a href="/explore/" class="right right_header">explore</a>
+        </span>
+        {% else %}
+        <span class="right right_header" style="font-weight: bold">login</span>
+        {% endif %}
+    </div>
+</div>
+
+<hr>
+
+<div class="login_block content">
+    <form action="/accounts/?target={{url_for('show_index')}}" method="post" enctype="multipart/form-data">
+        <div>
+            <input type="text" name="username" placeholder="username" style="margin: 3% 2% 2% 0" required/>
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="password" style="margin-bottom: 2%" required/>
+        </div>
+        <div>
+            <input type="submit" value="login"/>
+        </div>
+        <input type="hidden" name="operation" value="login"/>
+    </form>
+
+    <p>
+        Don't have an account? <a href="/accounts/create/" class="link"> Sign up</a>
+    </p>
+</div>
+
+</body>
+
+</html>

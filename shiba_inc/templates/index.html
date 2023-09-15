@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shiba_Inc</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div id="pagetop">
+    <a href="/", style="text-decoration:none">
+        <img src="{{url_for('static', filename='images/logo.png')}}" alt="Main Page" id="logo">
+        <span id="logofont">Shiba Inc</span>
+    </a>
+    {% if 'username' in session %}
+    <span>
+        <a href="/u/{{session['username']}}/" class="right right_header" style="margin-left: 10px">{{session['username']}}</a>
+        <a href="/explore/" class="right right_header">explore</a>
+    </span>
+    {% else %}
+    <a href="/accounts/login"><span class="right right_header" style="font-weight: bold">login</span></a>
+    {% endif %}
+  </div>
+
+    <div class="content">
+      <div id="container"></div>
+      <script type="text/javascript" src="{{ url_for('static', filename='js/index_bundle.js')}}"></script>
+
+      <!-- <div class="index-container">
+        <div class="column">
+          <div class="recipe-card">
+            <img src="/uploads/step4.webp" alt="recipe_img" style="width:100%">
+            <div class="card-container">
+              <h4 class="no-margin"><b>Smothered Chicken Thighs in Onion Gravy</b></h4>
+              <div>
+                <span class="graytext"> 8.8 </span>
+  
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star-o checked"></span>
+  
+                <span class="right margin-on-left graytext"> 1.8k </span> 
+                <span class="right">
+                  <i class="fa fa-heart-o pink" style="font-size:24px;"></i>
+                <span>
+              </div>
+              <div style="display: flex;">
+                <div class='image-cropper'>
+                  <img class='post_profile_img' src="/uploads/bg.jpeg"/>
+                </div>
+                <div class="username-center">
+                    <a href="/u/bg/" class="boldtext"> <span>Beluga</span> </a>
+                    <button class='inline margin-on-left indexfollowbutton'>+ follow </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="recipe-card">
+            <img src="/uploads/65.jpeg" alt="recipe_img" style="width:100%">
+            <div class="card-container">
+              <h4 class="no-margin"><b>Smothered Chicken Thighs in Onion Gravy</b></h4>
+              <div>
+                <span class="graytext"> 8.8 </span>
+  
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star-o checked"></span>
+  
+                <span class="right margin-on-left graytext"> 1.8k </span> 
+                <span class="right">
+                  <i class="fa fa-heart-o pink" style="font-size:24px;"></i>
+                <span>
+              </div>
+              <div style="display: flex;">
+                <div class='image-cropper'>
+                  <img class='post_profile_img' src="/uploads/bg.jpeg"/>
+                </div>
+                <div class="username-center">
+                    <a href="/u/bg/" class="boldtext"> <span>Beluga</span> </a>
+                    <button class='inline margin-on-left indexfollowbutton'>+ follow </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="recipe-card">
+            <img src="/uploads/54.jpeg" alt="recipe_img" style="width:100%">
+            <div class="card-container">
+              <h4 class="no-margin"><b>Smothered Chicken Thighs in Onion Gravy</b></h4>
+              <div>
+                <span class="graytext"> 8.8 </span>
+  
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star-o checked"></span>
+  
+                <span class="right margin-on-left graytext"> 1.8k </span> 
+                <span class="right">
+                  <i class="fa fa-heart-o pink" style="font-size:24px;"></i>
+                <span>
+              </div>
+              <div style="display: flex;">
+                <div class='image-cropper'>
+                  <img class='post_profile_img' src="/uploads/bg.jpeg"/>
+                </div>
+                <div class="username-center">
+                    <a href="/u/bg/" class="boldtext"> <span>Beluga</span> </a>
+                    <button class='inline margin-on-left indexfollowbutton'>+ follow </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="recipe-card">
+            <img src="/uploads/6.jpeg" alt="recipe_img" style="width:100%">
+            <div class="card-container">
+              <h4 class="no-margin"><b>Smothered Chicken Thighs in Onion Gravy</b></h4>
+              <div>
+                <span class="graytext"> 8.8 </span>
+  
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star-o checked"></span>
+  
+                <span class="right margin-on-left graytext"> 1.8k </span> 
+                <span class="right">
+                  <i class="fa fa-heart-o pink" style="font-size:24px;"></i>
+                <span>
+              </div>
+              <div style="display: flex;">
+                <div class='image-cropper'>
+                  <img class='post_profile_img' src="/uploads/bg.jpeg"/>
+                </div>
+                <div class="username-center">
+                    <a href="/u/bg/" class="boldtext"> <span>Beluga</span> </a>
+                    <button class='inline margin-on-left indexfollowbutton'>+ follow </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+</body>

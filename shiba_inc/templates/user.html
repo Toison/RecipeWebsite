@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- TODO: ADD User Info -->
+    <title>Shiba_Inc</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+
+
+<body class="full">
+    <div id="pagetop">
+        <a href="/", style="text-decoration:none">
+            <img src="{{url_for('static', filename='images/logo.png')}}" alt="Main Page" id="logo">
+            <span id="logofont">Shiba Inc</span>
+        </a>
+        {% if 'username' in session %}
+        <span>
+            <a href="/u/{{session['username']}}/" class="right right_header" style="margin-left: 10px">{{session['username']}}</a>
+            <a href="/explore/" class="right right_header">explore</a>
+        </span>
+        {% else %}
+        <a href="/accounts/login"><span class="right right_header" style="font-weight: bold">login</span></a>
+        {% endif %}
+    </div>
+
+    <hr>
+
+    <div class="content">
+
+        <div class='large-image-cropper'>
+            <img class='post_profile_img left' src="{{profile_img}}"/>
+        </div>
+        <div>
+            <h2 class="no-margin">{{user}}</h2>
+            {% if user == session['username'] %}
+            <form action="/accounts/edit/" method="get" enctype="multupart/form-data" class="right button">
+                <input type="submit" name="edit_account" value="Edit Profile">
+            </form>
+            {% endif %}
+
+            <div>
+                <p class="graytext no-margin"> Joined {{create_time}} </p>
+                <p class="graytext no-margin">{{fullname}}</p>
+                {% if isfollowing %}
+                <form action="/following/?target={{url_for('user',user_url_slug=user)}}" method="post" enctype="multipart/form-data" class="button">
+                    <a href="{{url_for('get_follow_lists',username=user)}}">
+                        <p class="inline no-margin" >{{following}}</p> <p class="inline graytext no-margin"> following</p>
+                    </a>
+                    <a href="{{url_for('get_follow_lists',username=user)}}">
+                        <p class="inline no-margin" >{{follower}}</p> <p class="inline graytext no-margin"> followers</p>
+                    </a>
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value="{{user}}"/>
+                    <input type="hidden" name="operation" value="unfollow"/>
+                </form>
+                {% elif user != session['username']%}
+                    <form action="/following/?target={{url_for('user',user_url_slug=user)}}/" method="post" enctype="multipart/form-data", class="button">
+                        <a href="{{url_for('get_follow_lists',username=user)}}">
+                            <p class="inline no-margin" >{{following}}</p> <p class="inline graytext no-margin"> following</p>
+                        </a>
+                        <a href="{{url_for('get_follow_lists',username=user)}}">
+                            <p class="inline no-margin" >{{follower}}</p> <p class="inline graytext no-margin"> followers</p>
+                        </a>
+                        <input type="submit" name="follow" value="follow"/>
+                        <input type="hidden" name="username" value="{{user}}"/>
+                        <input type="hidden" name="operation" value="follow"/>
+                    </form>
+                {% endif %}
+            </div>
+
+            {% if user == session['username'] %}
+            <a href="{{url_for('get_follow_lists',username=user)}}">
+                <p class="inline no-margin" >{{following}}</p> <p class="inline graytext no-margin"> following</p>
+            </a>
+            <a href="{{url_for('get_follow_lists',username=user)}}">
+                <p class="inline no-margin" >{{follower}}</p> <p class="inline graytext no-margin"> followers</p>
+            </a>
+            <form action="/newpost/" method="get" enctype="multipart/form-data">
+                <input type="submit" name="newpost" value="Create Recipe" />
+            </form>
+
+            <form action="/accounts/logout/" method="post" enctype="multipart/form-data">
+                <input type="submit" name="logout" value="Logout" />
+            </form>
+
+            {% endif %}
+        </div>
+
+        <br>
+
+        <h3>{{user}}'s Recipes</h3>
+        
+        <div class="column" style="float: left; width: 49%;">
+            <h4>Created</h4>
+            {% for p in createdPosts %}
+                <div class="recipe-card" key="{{p['postid']}}">
+                    <a href="{{url_for('show_post', post_url_slug=p['postid'])}}">
+                    <img src="{{p['recipeImg']}}" style="width: 100%"/>
+                    </a>
+                    <div class="card-container">
+                        <h4 class="no-margin"><b>{{p['recipename']}}</b></h4>
+                        <div>
+                            <span class="graytext">Rating: {{p['rating'] * 2}} </span>
+                            <span class="right margin-on-left graytext">Likes: {{p['likenum']}} </span> 
+                            <span class="right">
+                                {% if p['is_liking'] %}
+                                <i class="fa fa-heart" style="font-size: 24px; color: pink"></i>
+                                {% else %}
+                                <i class="fa fa-heart-o" style="font-size: 24px; color: pink"></i>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div style="display: flex">
+                            <div class='image-cropper'>
+                            <img class='post_profile_img' src="{{profile_img}}"/>
+                            </div>
+                            <div class="username-center">
+                                <a href="{{url_for('user', user_url_slug=user)}}" class="boldtext"> <span>{{fullname}}</span> </a>
+                                <span class="margin-on-left graytext">updated {{p['created']}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="column" style="float: right; width: 49%;">
+            <h4>Liked</h4>
+            {% for p in likedPosts %}
+            <div class="recipe-card" key="{{p['postid']}}">
+                <a href="{{url_for('show_post', post_url_slug=p['postid'])}}">
+                <img src="{{p['recipeImg']}}" style="width: 100%"/>
+                </a>
+                <div class="card-container">
+                    <h4 class="no-margin"><b>{{p['recipename']}}</b></h4>
+                    <div>
+                        <span class="graytext">Rating: {{p['rating'] * 2}} </span>
+                        <span class="right margin-on-left graytext">Likes: {{p['likenum']}} </span> 
+                        <span class="right">
+                            <i class="fa fa-heart" style="font-size: 24px; color: pink"></i>
+                        </span>
+                    </div>
+                    <div style="display: flex">
+                        <div class='image-cropper'>
+                        <img class='post_profile_img' src="{{p['filename']}}"/>
+                        </div>
+                        <div class="username-center">
+                            <a href="{{url_for('user', user_url_slug=p['username'])}}" class="boldtext"> <span>{{p['fullname']}}</span> </a>
+                            <span class="margin-on-left graytext">updated {{p['created']}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        
+        
+    </div>
+</body>
+
+</html>
+

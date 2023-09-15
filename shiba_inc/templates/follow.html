@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Shiba_Inc</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style lang="scss">
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .column {
+        padding-left: 10%;
+        padding-top: 15%;
+        float: left;
+        width: 45%;
+    }
+
+
+    .user{
+        display:flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+    }
+
+    .username {
+        margin-left: 30px;
+    }
+</style>
+    <title>Shiba_Inc</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+<div id="pagetop">
+        <a href="/", style="text-decoration:none">
+            <img src="{{url_for('static', filename='images/logo.png')}}" alt="Main Page" id="logo">
+            <span id="logofont">Shiba Inc</span>
+        </a>
+        {% if 'username' in session %}
+        <span>
+            <a href="/u/{{session['username']}}/" class="right right_header" style="margin-left: 10px">{{session['username']}}</a>
+            <a href="/explore/" class="right right_header">explore</a>
+        </span>
+        {% else %}
+        <a href="/accounts/login"><span class="right right_header" style="font-weight: bold">login</span></a>
+        {% endif %}
+    </div>
+
+    {#Follow information #}
+    <div class="content">
+        <div class="row">
+
+            <div class="column">
+                <h2>Follower</h2>
+                <hr>
+                <!-- user information -->
+                {% for name in follower %}
+                    <div class="user">
+
+                        <div class='image-cropper'>
+                            <img class='post_profile_img left' src="{{ follower_lists_avatar_src[loop.index0] }}"/>
+                        </div>
+                        <div class="username-center">
+                            <a href='/u/{{name}}'> <span class="username boldtext">{{ name }}</span> </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+
+            <div class="column">
+                <h2>Following</h2>
+                <hr>
+
+                {% for name in following %}
+                    <div class="user">
+
+                        <div class='image-cropper'>
+                            <img class='post_profile_img left' src="{{ following_lists_avatar_src[loop.index0] }}"/>
+                        </div>
+
+                        <div class="username-center">
+                            <a href='/u/{{name}}'> <span class="username boldtext">{{ name }}</span> </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

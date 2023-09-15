@@ -1,0 +1,16 @@
+#!/bin/bash
+# shiba_inc_run
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+
+set -x
+
+if !(test -e "var/shiba_inc.sqlite3"); then
+  shiba_inc_db create 
+fi
+npx webpack watch &
+export FLASK_ENV=development
+export FLASK_APP=shiba_inc
+flask run --host 0.0.0.0 --port 8000

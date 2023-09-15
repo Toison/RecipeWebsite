@@ -1,0 +1,98 @@
+-- Use this as an example
+
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE users(
+  username VARCHAR(20) NOT NULL UNIQUE,
+  fullname VARCHAR(40) NOT NULL,
+  email VARCHAR(40) NOT NULL,
+  filename VARCHAR(64) NOT NULL,
+  password VARCHAR(256) NOT NULL,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(username) 
+);
+
+CREATE TABLE posts(
+  postid INTEGER NOT NULL UNIQUE,
+  --filename VARCHAR(64) NOT NULL,
+  owner VARCHAR(20) NOT NULL,
+  recipename VARCHAR(50) NOT NULL,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(postid),
+  FOREIGN KEY(owner) REFERENCES users(username)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+CREATE TABLE following(
+  follower VARCHAR(20) NOT NULL,
+  followee VARCHAR(20) NOT NULL,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(follower, followee),
+  FOREIGN KEY(follower) REFERENCES users(username)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  FOREIGN KEY(followee) REFERENCES users(username)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+CREATE TABLE comments(
+  commentid INTEGER NOT NULL,
+  commenter VARCHAR(20) NOT NULL,
+  postid INTEGER NOT NULL,
+  text VARCHAR(1024) NOT NULL,
+  ratevalue INTEGER,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(commentid),
+  FOREIGN KEY(commenter) REFERENCES users(username)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  FOREIGN KEY(postid) REFERENCES posts(postid)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+CREATE TABLE likes(
+  liker VARCHAR(20) NOT NULL,
+  postid INTEGER NOT NULL,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(liker) REFERENCES users(username)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  FOREIGN KEY(postid) REFERENCES posts(postid)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  PRIMARY KEY(liker, postid)
+);
+
+CREATE TABLE steps(
+  postid INTEGER NOT NULL,
+  stepnum INTEGER NOT NULL,
+  imgpath VARCHAR(100) NOT NULL,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  text VARCHAR(1024) NOT NULL,
+  PRIMARY KEY(postid, stepnum),
+  FOREIGN KEY(postid) REFERENCES posts(postid)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+CREATE TABLE tags(
+  postid INTEGER NOT NULL,
+  tagid  INTEGER NOT NULL,
+  PRIMARY KEY(postid, tagid),
+  FOREIGN KEY(postid) REFERENCES posts(postid)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  FOREIGN KEY(tagid) REFERENCES tagnames(tagid)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+CREATE TABLE tagnames (
+  tagid INTEGER NOT NULL UNIQUE,
+  category VARCHAR(30) NOT NULL,
+  name  VARCHAR(30) NOT NULL,
+  PRIMARY KEY (tagid)
+);

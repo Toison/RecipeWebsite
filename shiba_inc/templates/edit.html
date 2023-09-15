@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Shiba_Inc</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    </head>
+
+
+    <body class="full">
+
+        <div id="pagetop">
+            <a href="/", style="text-decoration:none">
+                <img src="{{url_for('static', filename='images/logo.png')}}" alt="Main Page" id="logo">
+                <span id="logofont">Shiba Inc</span>
+            </a>
+            {% if 'username' in session %}
+            <span>
+                <a href="/u/{{session['username']}}/" class="right right_header" style="margin-left: 10px">{{session['username']}}</a>
+                <a href="/explore/" class="right right_header">explore</a>
+            </span>
+            {% else %}
+            <a href="/accounts/login"><span class="right right_header" style="font-weight: bold">login</span></a>
+            {% endif %}
+        </div>
+
+        <hr>
+        <div class="content">
+            <div class="edit_block">
+
+                <img src="{{url_for('download_file', filename=img_file)}}" alt="{{session['username']}}" class="insta_profile_photo">
+                <br>
+                <span class="text">Edit Profile: {{session['username']}}</span>
+                <form action="/accounts/?target=/accounts/edit/" method="post" enctype="multipart/form-data" style="height: 30%">
+                    <div style="margin: 2% 0 0.5%">
+                        <label for="file">Photo:</label>
+                        <input type="file" name="file" id="file" class="input_field"/>
+                    </div>
+                    <div style="margin: 0.5% 0">
+                        <label for="fullname">Name: </label>
+                        <input type="text" name="fullname" value="{{fullname}}" id="fullname" class="input_field"/>
+                    </div>
+                    <div>
+                        <label for="email">Email: </label>
+                        <input type="text" name="email" value="{{email}}" id="email" class="input_field"/>
+                    </div>
+                    <div>
+                        <input type="submit" name="update" value="submit" class="input_field button"/>
+                    </div>
+                    <div>
+                        <input type="hidden" name="operation" value="edit_account"/>
+                    </div>
+                </form>
+                <div>
+                    <a href="/accounts/password/" class="link">Change password</a>
+                    <br>
+                    <br>
+                    <a href="/accounts/delete/" class="link">Delete account</a>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </body>
+</html>

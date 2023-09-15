@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- TODO: ADD Recipe Information -->
+    <title>Shiba_Inc</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+
+
+<body class="full">
+
+<div class="header">
+
+    <div id="pagetop">
+        <a href="/", style="text-decoration:none">
+            <img src="{{url_for('static', filename='images/logo.png')}}" alt="Main Page" id="logo">
+            <span id="logofont">Shiba Inc</span>
+        </a>
+        {% if 'username' in session %}
+        <span>
+        <a href="/u/{{session['username']}}/" class="right right_header">{{session['username']}}</a>
+        <span class="right right_header vl"></span>
+        <a href="/explore/" class="right right_header">explore</a>
+        </span>
+        {% else %}
+        <span class="right right_header" style="font-weight: bold">login</span>
+        {% endif %}
+    </div>
+</div>
+
+<hr>
+
+<div class="create_block content">
+    <!-- DO NOT CHANGE THIS (aside from styling) -->
+    <form action="/accounts/?target=/" method="post" enctype="multipart/form-data">
+        <div class="create_div">
+            <span>Photo</span>
+            <input type="file" name="file" class="input_field" required/>
+        </div>
+        <div class="create_div">
+            <span>Name</span>
+            <input type="text" name="fullname" class="input_field textbox" required/>
+        </div>
+        <div class="create_div">
+            <span>Username</span>
+            <input type="text" name="username" class="input_field textbox" required/>
+        </div>
+        <div class="create_div">
+            <span>Email</span>
+            <input type="text" name="email" class="input_field textbox" required/>
+        </div>
+        <div class="create_div">
+            <span>Password</span>
+            <input type="password" name="password" class="input_field textbox" required/>
+        </div>
+        <div>
+            <input type="submit" name="signup" value="sign up"/>
+        </div>
+        
+        <input type="hidden" name="operation" value="create"/>
+    
+        <div>
+            <p>Have an account? <a href="/accounts/login/" style="font-weight: bold">Log in</a></p>
+        </div>
+
+    </form>
+</div>
+
+</body>
+
+</html>
